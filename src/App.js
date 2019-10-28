@@ -3,14 +3,11 @@ import React from "react";
 import TodoList from "./components/TodoComponents/TodoList";
 import TodoForm from "./components/TodoComponents/TodoForm";
 
+import "./components/TodoComponents/Todo.css";
+
 const todos = [
   {
     title: "Finish MVP",
-    id: Date.now(),
-    completed: false
-  },
-  {
-    title: "Do stretch",
     id: Date.now(),
     completed: false
   }
@@ -38,13 +35,39 @@ class App extends React.Component {
     });
   };
 
+  toggleComplete = checkedItem => {
+    this.setState({
+      todos: this.state.todos.map(item => {
+        if (item.id === checkedItem) {
+          return {
+            ...item,
+            completed: !item.completed
+          };
+        } else {
+          return item;
+        }
+      })
+    });
+  };
+
+  clearCompleted = checkedItem => {
+    this.setState({
+      todos: this.state.todos.filter(item => {
+        return item.completed === false;
+      })
+    });
+  };
+
   render() {
     console.log("rendering");
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-        <TodoList todos={this.state.todos} />
-        <TodoForm addTodo={this.addTodo} />
+        <TodoList
+          todos={this.state.todos}
+          toggleComplete={this.toggleComplete}
+        />
+        <TodoForm addTodo={this.addTodo} clearCompleted={this.clearCompleted} />
       </div>
     );
   }
