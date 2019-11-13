@@ -2,6 +2,7 @@ import React from "react";
 
 import TodoList from "./components/TodoComponents/TodoList";
 import TodoForm from "./components/TodoComponents/TodoForm";
+import TodoSearch from "./components/TodoComponents/TodoSearch";
 
 import "./components/TodoComponents/Todo.css";
 
@@ -23,6 +24,14 @@ class App extends React.Component {
       todos: todos
     };
   }
+
+  searchTodos = checkedItem => {
+    this.setState({
+      todos: this.state.todos.filter(item => {
+        return item.title === checkedItem;
+      })
+    });
+  };
 
   addTodo = title => {
     const newTodo = {
@@ -50,7 +59,7 @@ class App extends React.Component {
     });
   };
 
-  clearCompleted = checkedItem => {
+  clearCompleted = () => {
     this.setState({
       todos: this.state.todos.filter(item => {
         return item.completed === false;
@@ -63,6 +72,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
+        <TodoSearch searchTodos={this.searchTodos} />
         <TodoList
           todos={this.state.todos}
           toggleComplete={this.toggleComplete}
